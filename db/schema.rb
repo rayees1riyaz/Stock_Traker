@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_11_061850) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_15_062155) do
   create_table "homes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -20,10 +20,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_11_061850) do
     t.string "brand"
     t.datetime "created_at", null: false
     t.string "model"
-    t.decimal "price", precision: 10, scale: 2
+    t.decimal "price"
     t.integer "quantity"
     t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.integer "user_id", null: false
     t.index ["user_id"], name: "index_stocks_on_user_id"
   end
 
@@ -33,6 +33,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_11_061850) do
     t.string "name"
     t.string "password_digest"
     t.string "phone"
+    t.string "shop_name"
     t.datetime "updated_at", null: false
   end
 

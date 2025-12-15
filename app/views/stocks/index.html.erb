@@ -1,0 +1,41 @@
+<h2 class="mb-2">
+  Welcome, <%= current_user.shop_name %>
+</h2>
+
+<h1 class="mb-4">Stocks</h1>
+
+<%= link_to "Add New Stock", new_stock_path, class: "btn btn-primary mb-3" %>
+
+<% if @stocks.any? %>
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @stocks.each do |stock| %>
+        <tr>
+          <td><%= stock.brand %></td>
+          <td><%= stock.model %></td>
+          <td><%= stock.price %></td>
+          <td><%= stock.quantity %></td>
+          <td>
+            <%= link_to "Edit", edit_stock_path(stock), class: "btn btn-sm btn-warning" %>
+            <%= link_to "Delete",
+                stock_path(stock),
+                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                class: "btn btn-sm btn-danger" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="text-muted">No stocks available.</p>
+<% end %>

@@ -14,6 +14,14 @@
       </div>
 
       <div class="form-group">
+        <%= form.label :shop_name, "Shop Name" %>
+        <%= form.text_field :shop_name, class: "input-field #{'field-error' if @user.errors[:shop_name].any?}" %>
+        <% if @user.errors[:shop_name].any? %>
+          <p class="inline-error"><%= @user.errors.full_messages_for(:shop_name).first %></p>
+        <% end %>
+      </div>
+
+      <div class="form-group">
         <%= form.label :email %>
         <%= form.email_field :email, class: "input-field #{'field-error' if @user.errors[:email].any?}" %>
         <% if @user.errors[:email].any? %>

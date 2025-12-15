@@ -1,11 +1,11 @@
 class CreateStocks < ActiveRecord::Migration[8.1]
-def change
+  def change
     create_table :stocks do |t|
       t.string :brand
       t.string :model
-      t.decimal :price, precision: 10, scale: 2
+      t.decimal :price
       t.integer :quantity
-      t.references :user, foreign_key: true
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

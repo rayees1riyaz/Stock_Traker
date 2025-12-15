@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
 
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect_to root_path, notice: "Logged in successfully"
+      redirect_to stocks_path, notice: "Logged in successfully"
     else
       flash.now[:alert] = "Invalid email or password"
       flash.now[:email_error] = user.nil? ? "Email not found" : nil

@@ -1,0 +1,32 @@
+<div class="stock-page">
+  <div class="stock-card">
+
+    <h1>Stock Details</h1>
+
+    <p>
+      <strong>Brand:</strong>
+      <%= @stock.brand %>
+    </p>
+
+    <p>
+      <strong>Model:</strong>
+      <%= @stock.model %>
+    </p>
+
+    <p>
+      <strong>Price:</strong>
+      <%= number_to_currency(@stock.price) %>
+    </p>
+
+    <p>
+      <strong>Quantity:</strong>
+      <%= @stock.quantity %>
+    </p>
+
+    <div class="actions">
+      <%= link_to "Edit", edit_stock_path(@stock), class: "btn" %>
+      <%= link_to "Back", stocks_path, class: "btn btn-secondary" %>
+    </div>
+
+  </div>
+</div>
