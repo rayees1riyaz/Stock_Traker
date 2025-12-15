@@ -13,4 +13,7 @@ class ApplicationController < ActionController::Base
       @current_user = User.find_by(id: session[:user_id])
     end
   end
+   def require_login
+    redirect_to login_path, alert: "Please login first" unless current_user
+  end
 end

@@ -35,9 +35,10 @@ class StocksController < ApplicationController
   end
 
   def destroy
-    stock = current_user.stocks.find(params[:id])
-    stock.destroy
-    redirect_to stocks_path, notice: "Stock deleted successfully."
+    if @stock
+      @stock.destroy
+      redirect_to stocks_path, notice: "Stock deleted successfully."
+    end
   end
 
   private
@@ -49,7 +50,4 @@ class StocksController < ApplicationController
   def stock_params
     params.require(:stock).permit(:brand, :model, :price, :quantity)
   end
-  def require_login
-  redirect_to login_path, alert: "Please login first" unless current_user
-end
 end

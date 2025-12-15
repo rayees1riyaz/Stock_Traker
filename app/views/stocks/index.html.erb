@@ -1,6 +1,7 @@
 <h2 class="mb-2">
   Welcome, <%= current_user.shop_name %>
 </h2>
+<%= link_to "Logout", logout_path, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 
 <h1 class="mb-4">Stocks</h1>
 
