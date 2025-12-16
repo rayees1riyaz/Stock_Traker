@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   get "signup", to: "users#signup"
   post "signup", to: "users#create"
   resources :stocks
+  get "verify-login", to: "sessions#verify"
+  post "verify-login", to: "sessions#confirm"
+  get  "verify-signup", to: "users#verify_signup"
+  post "verify-signup", to: "users#confirm_signup"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

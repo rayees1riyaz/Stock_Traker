@@ -1,0 +1,6 @@
+<h2>Verify Email</h2>
+
+<%= form_with url: verify_signup_path, local: true do %>
+  <input type="text" name="otp" placeholder="Enter verification code" required>
+  <button type="submit">Verify</button>
+<% end %>

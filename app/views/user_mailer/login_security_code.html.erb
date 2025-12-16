@@ -1,0 +1,11 @@
+<h2>Security verification</h2>
+
+<p>Hello <%= @user.name %>,</p>
+
+<p>Your login security code is:</p>
+
+<h1 style="letter-spacing: 4px;"><%= @user.login_otp %></h1>
+
+<p>This code will expire in 10 minutes.</p>
+
+<p>If this was not you, please secure your account.</p>

@@ -1,0 +1,10 @@
+<h2>Enter Security Code</h2>
+
+<%= form_with url: verify_login_path, local: true do %>
+  <div class="form-group">
+    <label>Security Code</label>
+    <input type="text" name="otp" class="input-field" required>
+  </div>
+
+  <button type="submit" class="btn">Verify & Login</button>
+<% end %>

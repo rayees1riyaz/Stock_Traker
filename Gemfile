@@ -28,6 +28,10 @@ gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"
 gem "bcrypt"
+group :development do
+  gem "letter_opener"
+end
+
 
 
 # Reduces boot times through caching; required in config/boot.rb
