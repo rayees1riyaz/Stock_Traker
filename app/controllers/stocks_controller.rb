@@ -2,9 +2,18 @@ class StocksController < ApplicationController
   before_action :set_stock, only: [ :show, :edit, :update, :destroy ]
   before_action :require_login
 
-  def index
-    @stocks = Stock.all
+ def index
+  @categories = Stock.distinct.pluck(:category)
+
+  if params[:category].present?
+    @stocks = current_user.stocks.where(category: params[:category])
+  else
+    @stocks = current_user.stocks
   end
+
+  @stocks_by_category = @stocks.group_by(&:category)
+end
+
 
   def show
   end
@@ -48,6 +57,6 @@ class StocksController < ApplicationController
   end
 
   def stock_params
-    params.require(:stock).permit(:brand, :model, :price, :quantity)
+    params.require(:stock).permit(:brand, :model, :price, :quantity, :category)
   end
 end

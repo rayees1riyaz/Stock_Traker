@@ -1,42 +1,64 @@
 <h2 class="mb-2">
   Welcome, <%= current_user.shop_name %>
 </h2>
-<%= link_to "Logout", logout_path, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+
+<%= link_to "Logout",
+    logout_path,
+    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 
 <h1 class="mb-4">Stocks</h1>
 
 <%= link_to "Add New Stock", new_stock_path, class: "btn btn-primary mb-3" %>
+<%= form_with url: stocks_path, method: :get, local: true do %>
+  <div class="form-group mb-4">
+    <%= label_tag :category, "Filter by Product Type" %>
+    <%= select_tag :category,
+          options_for_select(@categories, params[:category]),
+          prompt: "All Products",
+          class: "form-control",
+          onchange: "this.form.submit();" %>
+  </div>
+<% end %>
 
-<% if @stocks.any? %>
-  <table class="table table-bordered table-striped">
-    <thead class="table-dark">
-      <tr>
-        <th>Brand</th>
-        <th>Model</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+<% if @stocks_by_category.any? %>
 
-    <tbody>
-      <% @stocks.each do |stock| %>
+  <% @stocks_by_category.each do |category, stocks| %>
+    <h3 class="mt-4 mb-2"><%= category.presence || "Uncategorized" %></h3>
+
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
         <tr>
-          <td><%= stock.brand %></td>
-          <td><%= stock.model %></td>
-          <td><%= stock.price %></td>
-          <td><%= stock.quantity %></td>
-          <td>
-            <%= link_to "Edit", edit_stock_path(stock), class: "btn btn-sm btn-warning" %>
-            <%= link_to "Delete",
-                stock_path(stock),
-                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                class: "btn btn-sm btn-danger" %>
-          </td>
+          <th>Brand</th>
+          <th>Model</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Actions</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+
+      <tbody>
+        <% stocks.each do |stock| %>
+          <tr>
+            <td><%= stock.brand %></td>
+            <td><%= stock.model %></td>
+            <td><%= stock.price %></td>
+            <td><%= stock.quantity %></td>
+            <td>
+              <%= link_to "Edit",
+                    edit_stock_path(stock),
+                    class: "btn btn-sm btn-warning" %>
+
+              <%= link_to "Delete",
+                    stock_path(stock),
+                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                    class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
 <% else %>
   <p class="text-muted">No stocks available.</p>
 <% end %>
