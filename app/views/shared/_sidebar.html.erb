@@ -1,0 +1,32 @@
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">ST</div>
+      <div class="brand-text">Stock Traker</div>
+    </div>
+    
+    <nav class="nav-menu">
+      <%= link_to stocks_path, class: "nav-item #{'active' if request.path == stocks_path}" do %>
+        <span>Dashboard</span>
+      <% end %>
+      
+      <%= link_to analytics_path, class: "nav-item #{'active' if request.path == analytics_path}" do %>
+        <span>Analytics</span>
+      <% end %>
+      
+      <%= link_to users_path, class: "nav-item #{'active' if request.path == users_path}" do %>
+        <span>Settings</span>
+      <% end %>
+    </nav>
+    
+    <div class="user-profile">
+      <div class="avatar">
+        <%= current_user.shop_name[0].upcase rescue 'U' %>
+      </div>
+      <div class="user-info">
+        <span class="user-name"><%= current_user.shop_name %></span>
+        <%= link_to "Sign out", logout_path, 
+            data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to sign out?" }, 
+            class: "logout-btn" %>
+      </div>
+    </div>
+  </aside>

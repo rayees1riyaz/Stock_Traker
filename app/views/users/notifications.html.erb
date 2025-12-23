@@ -1,0 +1,81 @@
+<div class="app-layout">
+  <%= render "shared/sidebar" %>
+
+  <main class="main-content">
+    
+    <div class="top-bar">
+      <div class="page-header">
+        <h1>Notifications</h1>
+      </div>
+    </div>
+    
+    <div class="settings-container">
+      
+      <%= form_with(model: current_user, url: user_path(current_user), local: true, method: :patch) do |form| %>
+        
+        <div class="settings-title">Email Alerts</div>
+        <div class="settings-group">
+          <div class="settings-item">
+            <div class="item-left">
+              <span class="item-label">Account Activity</span>
+            </div>
+            <label class="toggle-switch">
+              <%= form.check_box :notify_account_activity %>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="item-left">
+              <span class="item-label">Weekly Summaries</span>
+            </div>
+            <label class="toggle-switch">
+              <%= form.check_box :notify_weekly_summary %>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-title">Push Notifications</div>
+        <div class="settings-group">
+          <div class="settings-item">
+            <div class="item-left">
+              <span class="item-label">New Stock Added</span>
+            </div>
+            <label class="toggle-switch">
+              <%= form.check_box :notify_new_stock %>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="item-left">
+              <span class="item-label">Low Stock Alerts (< 5 items)</span>
+            </div>
+            <label class="toggle-switch">
+              <%= form.check_box :notify_low_stock %>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="settings-item">
+            <div class="item-left">
+              <span class="item-label">Price Updates</span>
+            </div>
+            <label class="toggle-switch">
+              <%= form.check_box :notify_price_updates %>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+          <%= link_to "Back", users_path, class: "btn", style: "background: transparent; color: var(--color-text-muted);" %>
+          <%= form.submit "Save Preferences", class: "btn btn-primary" %>
+        </div>
+
+      <% end %>
+
+    </div>
+  </main>
+</div>

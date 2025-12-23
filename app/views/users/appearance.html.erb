@@ -1,0 +1,85 @@
+<div class="app-layout">
+  <%= render "shared/sidebar" %>
+
+  <main class="main-content">
+    
+    <div class="top-bar">
+      <div class="page-header">
+        <h1>Appearance</h1>
+      </div>
+    </div>
+    
+    <div class="settings-container">
+      
+      <%= form_with(model: current_user, url: user_path(current_user), local: true, method: :patch) do |form| %>
+
+        <div class="settings-title">Theme</div>
+        <div class="settings-group">
+          
+          <label class="settings-item radio-label">
+            <%= form.radio_button :theme, "light", class: "radio-input" %>
+            <div class="radio-content">
+              <div class="item-left">
+                <div class="item-icon">☀️</div>
+                <span class="item-label">Light Mode</span>
+              </div>
+              <div class="check-icon">✓</div>
+            </div>
+          </label>
+          
+          <label class="settings-item radio-label" style="border-top: 1px solid var(--color-border);">
+            <%= form.radio_button :theme, "dark", class: "radio-input" %>
+            <div class="radio-content">
+              <div class="item-left">
+                <div class="item-icon">🌙</div>
+                <span class="item-label">Dark Mode</span>
+              </div>
+              <div class="check-icon">✓</div>
+            </div>
+          </label>
+          
+          <label class="settings-item radio-label" style="border-top: 1px solid var(--color-border);">
+            <%= form.radio_button :theme, "system", class: "radio-input" %>
+            <div class="radio-content">
+              <div class="item-left">
+                <div class="item-icon">⚡</div>
+                <span class="item-label">Use System Setting</span>
+              </div>
+              <div class="check-icon">✓</div>
+            </div>
+          </label>
+        </div>
+
+        <div class="settings-title">Density</div>
+        <div class="settings-group">
+          <label class="settings-item radio-label">
+            <%= form.radio_button :density, "comfortable", class: "radio-input" %>
+            <div class="radio-content">
+              <div class="item-left">
+                <span class="item-label">Comfortable</span>
+              </div>
+              <div class="check-icon">✓</div>
+            </div>
+          </label>
+          
+          <label class="settings-item radio-label" style="border-top: 1px solid var(--color-border);">
+            <%= form.radio_button :density, "compact", class: "radio-input" %>
+            <div class="radio-content">
+              <div class="item-left">
+                <span class="item-label">Compact</span>
+              </div>
+              <div class="check-icon">✓</div>
+            </div>
+          </label>
+        </div>
+        
+        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+          <%= link_to "Back", users_path, class: "btn", style: "background: transparent; color: var(--color-text-muted);" %>
+          <%= form.submit "Save Appearance", class: "btn btn-primary" %>
+        </div>
+
+      <% end %>
+
+    </div>
+  </main>
+</div>

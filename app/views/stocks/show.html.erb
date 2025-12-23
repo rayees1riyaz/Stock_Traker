@@ -1,31 +1,53 @@
 <div class="stock-page">
   <div class="stock-card">
 
-    <h1>Stock Details</h1>
+    <div class="page-header" style="text-align: center; margin-bottom: 2.5rem;">
+      <h1><%= @stock.brand %> <%= @stock.model %></h1>
+      <span class="badge badge-primary" style="background: var(--bg-subtle); color: var(--color-text-muted); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 500;">
+        <%= @stock.category || "Product" %>
+      </span>
+    </div>
 
-    <p>
-      <strong>Brand:</strong>
-      <%= @stock.brand %>
-    </p>
+    <div class="detail-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+      
+      <div class="detail-item">
+        <label style="display: block; font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 600;">Price</label>
+        <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-text-main);">
+          <%= number_to_currency(@stock.price) %>
+        </div>
+      </div>
 
-    <p>
-      <strong>Model:</strong>
-      <%= @stock.model %>
-    </p>
+      <div class="detail-item">
+        <label style="display: block; font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 600;">Quantity</label>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-text-main);">
+            <%= @stock.quantity %>
+          </div>
+          <% if @stock.quantity <= 2 %>
+            <span class="qty-pill low">Low Stock</span>
+          <% else %>
+            <span class="qty-pill ok">In Stock</span>
+          <% end %>
+        </div>
+      </div>
 
-    <p>
-      <strong>Price:</strong>
-      <%= number_to_currency(@stock.price) %>
-    </p>
+      <div class="detail-item">
+        <label style="display: block; font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; font-weight: 600;">Total Value</label>
+        <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-text-main);">
+          <%= number_to_currency(@stock.price * @stock.quantity) %>
+        </div>
+      </div>
 
-    <p>
-      <strong>Quantity:</strong>
-      <%= @stock.quantity %>
-    </p>
+    </div>
 
-    <div class="actions">
-      <%= link_to "Edit", edit_stock_path(@stock), class: "btn" %>
-      <%= link_to "Back", stocks_path, class: "btn btn-secondary" %>
+    <div class="actions" style="display: flex; justify-content: center; gap: 1rem; border-top: 1px solid var(--color-border); padding-top: 2rem;">
+      <%= link_to stocks_path, class: "btn btn-outline" do %>
+        <span>← Back to List</span>
+      <% end %>
+      
+      <%= link_to edit_stock_path(@stock), class: "btn btn-primary" do %>
+        <span>Edit Stock</span>
+      <% end %>
     </div>
 
   </div>

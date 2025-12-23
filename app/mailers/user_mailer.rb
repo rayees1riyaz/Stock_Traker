@@ -25,11 +25,17 @@ class UserMailer < ApplicationMailer
   )
 end
 
-def login_alert(user)
+  def login_alert(user)
     @user = user
     mail(
       to: @user.email,
       subject: "New login to your Stock Traker account"
     )
+  end
+
+  def reset_password_email(user)
+    @user = user
+    @url = edit_password_reset_url(token: @user.reset_password_token)
+    mail(to: @user.email, subject: "Reset your password")
   end
 end

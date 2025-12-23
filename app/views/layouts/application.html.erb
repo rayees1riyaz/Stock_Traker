@@ -11,19 +11,41 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-theme="<%= current_user&.theme || 'light' %>">
+    <% flash.each do |type, message| %>
+      <% css_class = (type == "notice" || type == "success") ? "success" : "error" %>
+        <div class="toast <%= css_class %>">
+          <div class="toast-icon">
+            <%= css_class == "success" ? "✓" : "!" %>
+          </div>
+          <span class="toast-message"><%= message %></span>
+          <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+      <% end %>
+    </div>
+    
     <%= yield %>
+
+    <script>
+      document.addEventListener("turbo:load", () => {
+        const toasts = document.querySelectorAll(".toast");
+        toasts.forEach(t => {
+          setTimeout(() => {
+            t.classList.add("fade-out");
+            setTimeout(() => t.remove(), 500);
+          }, 4000);
+        });
+      });
+    </script>
   </body>
 </html>

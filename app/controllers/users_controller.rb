@@ -1,4 +1,39 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:edit, :update, :destroy]
+
+  def index
+    @users = [current_user]
+  end
+
+  def edit
+  end
+
+  def notifications
+  end
+
+  def appearance
+  end
+
+  def update
+    if @user.update(user_params)
+      redirect_to users_path, notice: "Settings updated successfully"
+    else
+      if request.referer&.include?("notifications")
+        render :notifications, status: :unprocessable_entity
+      elsif request.referer&.include?("appearance")
+        render :appearance, status: :unprocessable_entity
+      else
+        render :edit, status: :unprocessable_entity
+      end
+    end
+  end
+
+  def destroy
+    @user.destroy
+    session[:user_id] = nil
+    redirect_to login_path, notice: "Account deleted successfully"
+  end
+
   def signup
     @user = User.new
   end
@@ -46,7 +81,18 @@ class UsersController < ApplicationController
       :phone,
       :password,
       :password_confirmation,
-      :shop_name
+      :shop_name,
+      :notify_account_activity,
+      :notify_weekly_summary,
+      :notify_new_stock,
+      :notify_low_stock,
+      :notify_price_updates,
+      :theme,
+      :density
     )
+  end
+
+  def set_user
+    @user = current_user
   end
 end

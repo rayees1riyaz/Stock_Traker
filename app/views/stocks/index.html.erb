@@ -1,64 +1,153 @@
-<h2 class="mb-2">
-  Welcome, <%= current_user.shop_name %>
-</h2>
+<div class="app-layout">
+  
+  <%= render "shared/sidebar" %>
 
-<%= link_to "Logout",
-    logout_path,
-    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  <main class="main-content">
+    
+    <div class="top-bar">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+      </div>
+      
+      <%= link_to "+ Add Stock", new_stock_path, class: "btn btn-primary add-stock-btn" %>
+    </div>
 
-<h1 class="mb-4">Stocks</h1>
+    <% if current_user.notify_low_stock? && @stocks_by_category.values.flatten.any? { |s| s.quantity.to_i < 5 } %>
+      <div class="alert-banner" style="margin-bottom: 2rem; padding: 1rem; background: #fef2f2; color: #991b1b; border-radius: var(--radius-md); border: 1px solid #fecaca; display: flex; align-items: flex-start; gap: 0.75rem;">
+        <span style="font-size: 1.25rem; line-height: 1.2;">⚠️</span>
+        <div>
+          <strong style="font-weight: 600; display: block; margin-bottom: 0.25rem;">Low Stock Alert</strong>
+          <div style="font-size: 0.9rem; opacity: 0.9;">Some items in your inventory are running low (less than 5 units).</div>
+        </div>
+        <button onclick="this.closest('.alert-banner').remove()" style="margin-left: auto; background: none; border: none; font-size: 1.25rem; line-height: 1; color: inherit; cursor: pointer; padding: 0 0.25rem; opacity: 0.6;">&times;</button>
+      </div>
+    <% end %>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Inventory Value</div>
+        <div class="stat-value">
+          $ <span class="counter" data-target="<%= @total_value %>">0</span>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-label">Total Items</div>
+        <div class="stat-value">
+           <span class="counter" data-target="<%= @total_items %>">0</span> Units
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-label">Categories</div>
+        <div class="stat-value">
+           <span class="counter" data-target="<%= @total_categories %>">0</span>
+        </div>
+      </div>
+    </div>
 
-<%= link_to "Add New Stock", new_stock_path, class: "btn btn-primary mb-3" %>
-<%= form_with url: stocks_path, method: :get, local: true do %>
-  <div class="form-group mb-4">
-    <%= label_tag :category, "Filter by Product Type" %>
-    <%= select_tag :category,
-          options_for_select(@categories, params[:category]),
-          prompt: "All Products",
-          class: "form-control",
-          onchange: "this.form.submit();" %>
-  </div>
-<% end %>
+    <script>
+      document.addEventListener("turbo:load", () => {
+        if (sessionStorage.getItem('dashboard_animated')) {
+          const counters = document.querySelectorAll('.counter');
+          counters.forEach(c => {
+            c.innerText = (+c.getAttribute('data-target')).toLocaleString('en-US');
+          });
+          return;
+        }
 
-<% if @stocks_by_category.any? %>
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
 
-  <% @stocks_by_category.each do |category, stocks| %>
-    <h3 class="mt-4 mb-2"><%= category.presence || "Uncategorized" %></h3>
+        counters.forEach(counter => {
+          const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText.replace(/,/g, ''); 
+            const inc = target / 150; 
 
-    <table class="table table-bordered table-striped">
-      <thead class="table-dark">
-        <tr>
-          <th>Brand</th>
-          <th>Model</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+            if (count < target) {
+              const nextVal = Math.ceil(count + inc);
+              counter.innerText = nextVal.toLocaleString('en-US');
+              setTimeout(updateCount, 20);
+            } else {
+              counter.innerText = target.toLocaleString('en-US');
+            }
+          };
+          updateCount();
+        });
 
-      <tbody>
-        <% stocks.each do |stock| %>
-          <tr>
-            <td><%= stock.brand %></td>
-            <td><%= stock.model %></td>
-            <td><%= stock.price %></td>
-            <td><%= stock.quantity %></td>
-            <td>
-              <%= link_to "Edit",
-                    edit_stock_path(stock),
-                    class: "btn btn-sm btn-warning" %>
+        sessionStorage.setItem('dashboard_animated', 'true');
+      });
+    </script>
 
-              <%= link_to "Delete",
-                    stock_path(stock),
-                    data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                    class: "btn btn-sm btn-danger" %>
-            </td>
-          </tr>
+    <div class="action-toolbar">
+      <div class="filter-group">
+        <%= form_with url: stocks_path, method: :get, local: true do %>
+          <%= select_tag :category,
+                options_for_select(@categories, params[:category]),
+                prompt: "All Categories",
+                class: "select-input",
+                onchange: "this.form.submit();",
+                style: "margin: 0;" %>
         <% end %>
-      </tbody>
-    </table>
-  <% end %>
+      </div>
+    </div>
 
-<% else %>
-  <p class="text-muted">No stocks available.</p>
-<% end %>
+    <% if @stocks_by_category.any? %>
+      <% @stocks_by_category.each do |category, stocks| %>
+        <div class="table-container" style="margin-bottom: 2rem;">
+          <div class="section-header">
+            <%= category.presence || "Uncategorized" %>
+          </div>
+          <table class="pro-table">
+            <thead>
+              <tr>
+                <th style="width: 30%;">Brand & Model</th>
+                <th style="width: 20%;">Price</th>
+                <th style="width: 20%;">Stock Level</th>
+                <th class="actions-header" style="width: 20%; text-align: right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% stocks.each do |stock| %>
+                <tr>
+                  <td>
+                    <div style="font-weight: 600; color: var(--color-primary); margin-bottom: 0.35rem;"><%= stock.brand %></div>
+                    <div style="font-size: 0.85rem; color: var(--color-text-muted);"><%= stock.model %></div>
+                  </td>
+                  <td>
+                    <span class="price-tag">$<%= stock.price %></span>
+                  </td>
+                  <td>
+                    <span class="qty-pill <%= stock.quantity.to_i < 10 ? 'low' : 'ok' %>">
+                      <%= stock.quantity %> units
+                    </span>
+                  </td>
+                  <td style="text-align: right;">
+                    <div class="action-buttons" style="justify-content: flex-end;">
+                      <%= link_to edit_stock_path(stock), class: "icon-btn", title: "Edit" do %>
+                        ✎
+                      <% end %>
+                      
+                      <%= link_to stock_path(stock), 
+                            data: { turbo_method: :delete, turbo_confirm: "Remove this item?" },
+                            class: "icon-btn delete", 
+                            title: "Delete" do %>
+                        ×
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="empty-state">
+        <p>No inventory found. Add your first stock item above.</p>
+      </div>
+    <% end %>
+
+  </main>
+</div>

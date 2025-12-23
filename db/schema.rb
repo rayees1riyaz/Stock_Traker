@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_16_111750) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_18_095823) do
   create_table "homes", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -30,13 +30,22 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_111750) do
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "density"
     t.string "email"
     t.string "login_otp"
     t.datetime "login_otp_sent_at"
     t.string "name"
+    t.boolean "notify_account_activity"
+    t.boolean "notify_low_stock"
+    t.boolean "notify_new_stock"
+    t.boolean "notify_price_updates"
+    t.boolean "notify_weekly_summary"
     t.string "password_digest"
     t.string "phone"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
     t.string "shop_name"
+    t.string "theme"
     t.datetime "updated_at", null: false
   end
 

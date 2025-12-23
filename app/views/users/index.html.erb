@@ -1,0 +1,89 @@
+<div class="app-layout">
+  
+  <%= render "shared/sidebar" %>
+
+  <main class="main-content">
+    
+    <div class="top-bar">
+      <div class="page-header">
+        <h1>Settings</h1>
+      </div>
+    </div>
+    
+    <div class="settings-container">
+      
+      <!-- Profile Header -->
+      <div class="settings-header">
+        <div class="settings-avatar">
+          <%= current_user.shop_name[0].upcase rescue 'U' %>
+        </div>
+        <div class="settings-name"><%= current_user.shop_name %></div>
+        <div class="settings-email"><%= current_user.email %></div>
+      </div>
+
+      <!-- Account Settings -->
+      <div class="settings-title">Account</div>
+      <div class="settings-group">
+        <%= link_to edit_user_path(current_user), class: "settings-item" do %>
+          <div class="item-left">
+            <div class="item-icon">✎</div>
+            <span class="item-label">Edit Profile</span>
+          </div>
+          <div class="item-chevron">›</div>
+        <% end %>
+
+        <%= link_to forgot_password_path, class: "settings-item" do %>
+          <div class="item-left">
+            <div class="item-icon">🔑</div>
+            <span class="item-label">Forgot Password</span>
+          </div>
+          <div class="item-chevron">›</div>
+        <% end %>
+      </div>
+
+      <!-- App Settings (Visual Only) -->
+      <div class="settings-title">Preferences</div>
+      <div class="settings-group">
+        <%= link_to notifications_users_path, class: "settings-item" do %>
+          <div class="item-left">
+            <div class="item-icon">🔔</div>
+            <span class="item-label">Notifications</span>
+          </div>
+          <div class="item-chevron">›</div>
+        <% end %>
+        
+        <%= link_to appearance_users_path, class: "settings-item" do %>
+          <div class="item-left">
+            <div class="item-icon">🌙</div>
+            <span class="item-label">Appearance</span>
+          </div>
+          <div class="item-chevron">›</div>
+        <% end %>
+      </div>
+
+      <div class="settings-title">Session & Data</div>
+      <div class="settings-group">
+          <%= link_to logout_path, 
+            data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to sign out?" }, class: "settings-item mobile-only" do %>
+          <div class="item-left">
+            <div class="item-icon">↪</div>
+            <span class="item-label">Sign Out</span>
+          </div>
+          <div class="item-chevron">›</div>
+        <% end %>
+
+        <%= link_to user_path(current_user), 
+              data: { turbo_method: :delete, turbo_confirm: "Delete account permanently?" }, 
+              class: "settings-item danger" do %>
+          <div class="item-left">
+            <div class="item-icon">🗑</div>
+            <span class="item-label">Delete Account</span>
+          </div>
+          <div class="item-chevron">›</div>
+        <% end %>
+      </div>
+
+    </div>
+
+  </main>
+</div>

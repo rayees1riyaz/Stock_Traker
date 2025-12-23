@@ -1,95 +1,121 @@
 <%= form_with model: @stock, local: true do |form| %>
 
-  <div class="form-group">
-    <%= form.label :category, "Product Type" %>
-    <div class="input-wrapper">
-      <span class="input-icon icon-subcategory"></span>
-      <%= form.select :category,
-        [
-          "Mobile Phones",
-          "Laptops",
-          "Tablets",
-          "Televisions",
-          "Washing Machine",
-          "Inverter Batteries",
-          "Fridge",
-          "AC"
-        ],
-        { prompt: "Select Product Type" },
-        class: "input-field with-icon",
-        id: "product_type_select" %>
+  <div style="margin-bottom: 2rem;">
+    <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--color-text-main);">Product Details</h3>
+    
+    <div class="form-group" style="margin-bottom: 1.5rem;">
+      <%= form.label :category, "Product Type", style: "display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem;" %>
+      <div class="input-wrapper">
+        <span class="input-icon icon-subcategory"></span>
+        <%= form.select :category,
+          [
+            "Mobile Phones",
+            "Laptops",
+            "Tablets",
+            "Televisions",
+            "Washing Machine",
+            "Inverter Batteries",
+            "Fridge",
+            "AC"
+          ],
+          { prompt: "Select Product Type" },
+          class: "select-input",
+          style: "width: 100%;",
+          id: "product_type_select" %>
+      </div>
+      <p class="inline-error"><%= @stock.errors.full_messages_for(:category).first %></p>
     </div>
-    <p class="inline-error"><%= @stock.errors.full_messages_for(:category).first %></p>
+
+    <div class="form-grid">
+      
+      <div>
+        <div class="form-group" id="brand_dropdown_wrapper" style="display:none;">
+          <%= form.label :brand, style: "display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem;" %>
+          <div class="input-wrapper">
+            <span class="input-icon icon-brand"></span>
+            <%= form.select :brand, [],
+              { prompt: "Select Brand" },
+              class: "select-input",
+              style: "width: 100%;",
+              id: "brand_select",
+              data: { value: @stock.brand } %>
+          </div>
+          <p class="inline-error"><%= @stock.errors.full_messages_for(:brand).first %></p>
+        </div>
+
+        <div class="form-group" id="brand_text_wrapper">
+          <%= form.label :brand, style: "display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem;" %>
+          <div class="input-wrapper">
+            <span class="input-icon icon-brand"></span>
+            <%= form.text_field :brand,
+              class: "select-input",
+              style: "width: 100%;",
+              id: "brand_text",
+              value: @stock.brand %>
+          </div>
+          <p class="inline-error"><%= @stock.errors.full_messages_for(:brand).first %></p>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-group" id="model_dropdown_wrapper" style="display:none;">
+          <%= form.label :model, style: "display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem;" %>
+          <div class="input-wrapper">
+            <span class="input-icon icon-model"></span>
+            <%= form.select :model, [],
+              { prompt: "Select Model" },
+              class: "select-input",
+              style: "width: 100%;",
+              id: "model_select",
+              data: { value: @stock.model } %>
+          </div>
+          <p class="inline-error"><%= @stock.errors.full_messages_for(:model).first %></p>
+        </div>
+
+        <div class="form-group" id="model_text_wrapper">
+          <%= form.label :model, style: "display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem;" %>
+          <div class="input-wrapper">
+            <span class="input-icon icon-model"></span>
+            <%= form.text_field :model,
+              class: "select-input",
+              style: "width: 100%;",
+              id: "model_text",
+              value: @stock.model %>
+          </div>
+          <p class="inline-error"><%= @stock.errors.full_messages_for(:model).first %></p>
+        </div>
+      </div>
+      
+    </div>
   </div>
 
-  <div class="form-group" id="brand_dropdown_wrapper" style="display:none;">
-    <%= form.label :brand %>
-    <div class="input-wrapper">
-      <span class="input-icon icon-brand"></span>
-      <%= form.select :brand, [],
-        { prompt: "Select Brand" },
-        class: "input-field with-icon",
-        id: "brand_select",
-        data: { value: @stock.brand } %>
+  <div style="margin-bottom: 2rem; padding-top: 2rem; border-top: 1px solid var(--color-border);">
+    <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: var(--color-text-main);">Inventory Status</h3>
+    
+    <div class="form-grid">
+      <div class="form-group">
+        <%= form.label :price, style: "display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem;" %>
+        <div class="input-wrapper">
+          <span class="input-icon icon-price"></span>
+          <%= form.number_field :price, step: 0.01, class: "select-input", style: "width: 100%;" %>
+        </div>
+        <p class="inline-error"><%= @stock.errors.full_messages_for(:price).first %></p>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :quantity, style: "display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem;" %>
+        <div class="input-wrapper">
+          <span class="input-icon icon-quantity"></span>
+          <%= form.number_field :quantity, class: "select-input", style: "width: 100%;" %>
+        </div>
+        <p class="inline-error"><%= @stock.errors.full_messages_for(:quantity).first %></p>
+      </div>
     </div>
-    <p class="inline-error"><%= @stock.errors.full_messages_for(:brand).first %></p>
   </div>
 
-  <div class="form-group" id="brand_text_wrapper">
-    <%= form.label :brand %>
-    <div class="input-wrapper">
-      <span class="input-icon icon-brand"></span>
-      <%= form.text_field :brand,
-        class: "input-field with-icon",
-        id: "brand_text",
-        value: @stock.brand %>
-    </div>
-    <p class="inline-error"><%= @stock.errors.full_messages_for(:brand).first %></p>
+  <div style="display: flex; justify-content: flex-end; gap: 1rem; padding-top: 1rem;">
+    <%= link_to "Cancel", stocks_path, class: "btn", style: "background: transparent; color: var(--color-text-muted);" %>
+    <%= form.submit "Save Stock", class: "btn btn-primary" %>
   </div>
-
-  <div class="form-group" id="model_dropdown_wrapper" style="display:none;">
-    <%= form.label :model %>
-    <div class="input-wrapper">
-      <span class="input-icon icon-model"></span>
-      <%= form.select :model, [],
-        { prompt: "Select Model" },
-        class: "input-field with-icon",
-        id: "model_select",
-        data: { value: @stock.model } %>
-    </div>
-    <p class="inline-error"><%= @stock.errors.full_messages_for(:model).first %></p>
-  </div>
-
-  <div class="form-group" id="model_text_wrapper">
-    <%= form.label :model %>
-    <div class="input-wrapper">
-      <span class="input-icon icon-model"></span>
-      <%= form.text_field :model,
-        class: "input-field with-icon",
-        id: "model_text",
-        value: @stock.model %>
-    </div>
-    <p class="inline-error"><%= @stock.errors.full_messages_for(:model).first %></p>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :price %>
-    <div class="input-wrapper">
-      <span class="input-icon icon-price"></span>
-      <%= form.number_field :price, step: 0.01, class: "input-field with-icon" %>
-    </div>
-    <p class="inline-error"><%= @stock.errors.full_messages_for(:price).first %></p>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :quantity %>
-    <div class="input-wrapper">
-      <span class="input-icon icon-quantity"></span>
-      <%= form.number_field :quantity, class: "input-field with-icon" %>
-    </div>
-    <p class="inline-error"><%= @stock.errors.full_messages_for(:quantity).first %></p>
-  </div>
-
-  <%= form.submit "Save Stock", class: "btn" %>
 
 <% end %>
