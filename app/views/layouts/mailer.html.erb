@@ -1,13 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-      /* Email styles need to be inline */
+      /* Email styles need to be inline for best compatibility, but we can use a style tag for media queries */
+      @media only screen and (max-width: 600px) {
+        .container {
+          width: 100% !important;
+          padding: 10px !important;
+        }
+        .content {
+          padding: 20px !important;
+        }
+      }
     </style>
   </head>
 
-  <body>
-    <%= yield %>
+  <body style="margin: 0; padding: 0; background-color: #f4f4f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f7; padding: 20px 0;">
+      <tr>
+        <td align="center">
+          <table class="container" border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+            <!-- Header -->
+            <tr>
+              <td style="padding: 30px; text-align: center; background-color: #2563eb;">
+                <h1 style="margin: 0; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.025em;">Stock Traker</h1>
+              </td>
+            </tr>
+            <!-- Content -->
+            <tr>
+              <td class="content" style="padding: 40px; color: #374151; font-size: 16px; line-height: 1.6;">
+                <%= yield %>
+              </td>
+            </tr>
+            <!-- Footer -->
+            <tr>
+              <td style="padding: 30px; text-align: center; background-color: #f9fafb; color: #6b7280; font-size: 13px;">
+                <p style="margin: 0;">&copy; <%= Time.current.year %> Stock Traker Team. All rights reserved.</p>
+                <p style="margin: 10px 0 0;">If you didn't request this email, you can safely ignore it.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

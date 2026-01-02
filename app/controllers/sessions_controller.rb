@@ -11,8 +11,6 @@ class SessionsController < ApplicationController
       UserMailer.login_alert(user).deliver_later
     else
       flash.now[:alert] = "Invalid email or password"
-      flash.now[:email_error] = user.nil? ? "Email not found" : nil
-      flash.now[:password_error] = user.present? ? "Incorrect password" : nil
       render :new, status: :unprocessable_entity
     end
   end

@@ -1,11 +1,19 @@
-<h2>Security verification</h2>
+<h2 style="margin-top: 0; color: #111827; font-size: 20px; font-weight: 700;">Security verification</h2>
 
-<p>Hello <%= @user.name %>,</p>
+<p style="margin-bottom: 20px;">Hello <%= @user.name %>,</p>
 
-<p>Your login security code is:</p>
+<p style="margin-bottom: 24px;">Your login security code is:</p>
 
-<h1 style="letter-spacing: 4px;"><%= @user.login_otp %></h1>
+<div style="text-align: center; margin-bottom: 24px;">
+  <span style="display: inline-block; background-color: #f3f4f6; color: #2563eb; font-size: 32px; font-weight: 800; letter-spacing: 8px; padding: 12px 24px; border-radius: 8px; border: 1px solid #e5e7eb;">
+    <%= @user.login_otp %>
+  </span>
+</div>
 
-<p>This code will expire in 10 minutes.</p>
+<p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">
+  This code will expire in <strong>10 minutes</strong>.
+</p>
 
-<p>If this was not you, please secure your account.</p>
+<p style="font-size: 14px; color: #6b7280; margin-bottom: 0;">
+  If you didn't request this code, please ignore this email or contact support.
+</p>

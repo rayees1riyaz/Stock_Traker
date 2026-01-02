@@ -33,26 +33,35 @@ Rails.application.configure do
   # MAILER CONFIGURATION (REAL EMAIL VIA GMAIL)
   # --------------------------------------------------
 
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: "gmail.com",
-    user_name: ENV["GMAIL_USERNAME"],
-    password: ENV["GMAIL_PASSWORD"],
-    authentication: "plain",
-    enable_starttls_auto: true
-  }
+  # config.action_mailer.smtp_settings = {
+  #   address: "smtp.gmail.com",
+  #   port: 587,
+  #   domain: "gmail.com",
+  #   user_name: ENV["GMAIL_USERNAME"],
+  #   password: ENV["GMAIL_PASSWORD"],
+  #   authentication: "plain",
+  #   enable_starttls_auto: true
+  # }
 
   config.action_mailer.default_url_options = {
-    host: "localhost",
+    host: "192.168.1.20",
+    port: 3000
+  }
+
+  config.action_controller.default_url_options = {
+    host: "192.168.1.20",
     port: 3000
   }
 
   config.action_mailer.perform_caching = false
+
+  # Allow all hosts in development to make mobile testing easier
+  config.hosts.clear
+
 
   # --------------------------------------------------
 

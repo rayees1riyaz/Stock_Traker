@@ -10,11 +10,7 @@
         <%= form.email_field :email,
               value: params[:email],
               autocomplete: "email",
-              class: "input-field #{'field-error' if flash[:email_error].present?}" %>
-
-        <% if flash[:email_error].present? %>
-          <p class="inline-error"><%= flash[:email_error] %></p>
-        <% end %>
+              class: "input-field #{'field-error' if flash[:email_error].present?}" %>  
       </div>
 
       <div class="form-group">
@@ -25,10 +21,6 @@
         <%= form.password_field :password,
               autocomplete: "current-password",
               class: "input-field #{'field-error' if flash[:password_error].present?}" %>
-
-        <% if flash[:password_error].present? %>
-          <p class="inline-error"><%= flash[:password_error] %></p>
-        <% end %>
       </div>
 
       <%= form.submit "Login", class: "btn" %>
